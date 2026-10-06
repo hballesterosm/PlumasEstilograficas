@@ -1,0 +1,2880 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Maestría en Tinta | Estilográficas</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        /* =========================================================
+           VARIABLES Y RESET
+        ========================================================= */
+
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: #141c2f;
+            --bg-card-light: #1b263d;
+
+            --gold: #d4af37;
+            --gold-hover: #f1c40f;
+
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+
+            --nav-bg: rgba(10, 14, 23, 0.85);
+
+            --blue-ink: #1769aa;
+            --black-ink: #101010;
+            --red-ink: #9e2020;
+            --green-ink: #246b45;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+        }
+
+        p {
+            color: var(--text-main);
+        }
+
+        /* =========================================================
+           CANVAS
+        ========================================================= */
+
+        #inkCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+
+            width: 100vw;
+            height: 100vh;
+
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* =========================================================
+           NAVEGACIÓN
+        ========================================================= */
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+
+            background: var(--nav-bg);
+
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
+            z-index: 1000;
+
+            padding: 1rem 2rem;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+
+            font-size: 1.5rem;
+            font-weight: bold;
+
+            color: var(--gold);
+
+            text-decoration: none;
+
+            transition: 0.3s;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 15px rgba(212,175,55,.6);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: color 0.3s;
+
+            text-transform: uppercase;
+
+            font-size: 0.85rem;
+
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        /* =========================================================
+           SECCIONES
+        ========================================================= */
+
+        section {
+            padding: 7rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+
+            font-size: 2.8rem;
+
+            margin-bottom: 4rem;
+
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '✒';
+
+            position: absolute;
+
+            bottom: -35px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            font-size: 1.4rem;
+
+            opacity: 0.7;
+        }
+
+        /* =========================================================
+           SCROLL REVEAL
+        ========================================================= */
+
+        .reveal {
+            opacity: 0;
+
+            transform: translateY(50px);
+
+            transition:
+                opacity 0.8s ease,
+                transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            height: 100vh;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            text-align: center;
+
+            padding: 0 1rem;
+
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            background: radial-gradient(
+                circle,
+                rgba(212,175,55,.12),
+                transparent 70%
+            );
+
+            filter: blur(10px);
+
+            animation: pulse 5s infinite alternate;
+
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(.8);
+                opacity: .5;
+            }
+
+            to {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 6rem);
+
+            margin-bottom: 1rem;
+
+            text-shadow:
+                0 0 20px rgba(212,175,55,.3);
+
+            animation: titleIn 1.5s ease;
+        }
+
+        @keyframes titleIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+
+            color: var(--text-muted);
+
+            max-width: 700px;
+
+            margin-bottom: 2.5rem;
+
+            animation: titleIn 1.8s ease;
+        }
+
+        .hero-pen {
+            font-size: 5rem;
+
+            margin-bottom: 1rem;
+
+            animation:
+                floatPen 3s ease-in-out infinite,
+                titleIn 1.2s ease;
+        }
+
+        @keyframes floatPen {
+            0%, 100% {
+                transform: translateY(0) rotate(-8deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(8deg);
+            }
+        }
+
+        .btn {
+            padding: 12px 30px;
+
+            background: transparent;
+
+            border: 2px solid var(--gold);
+
+            color: var(--gold);
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 1.1rem;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            text-decoration: none;
+
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background: var(--gold);
+
+            color: var(--bg-dark);
+
+            box-shadow:
+                0 0 15px var(--gold);
+
+            transform: translateY(-3px);
+        }
+
+        /* =========================================================
+           SCROLL INDICATOR
+        ========================================================= */
+
+        .scroll-indicator {
+            position: absolute;
+
+            bottom: 25px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            gap: 5px;
+
+            color: var(--text-muted);
+
+            font-size: .8rem;
+
+            text-transform: uppercase;
+
+            letter-spacing: 2px;
+        }
+
+        .scroll-arrow {
+            animation: arrow 1.5s infinite;
+        }
+
+        @keyframes arrow {
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(8px);
+            }
+        }
+
+        /* =========================================================
+           HISTORIA
+        ========================================================= */
+
+        .timeline {
+            position: relative;
+
+            max-width: 850px;
+
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+
+            position: absolute;
+
+            width: 2px;
+
+            background: var(--gold);
+
+            top: 0;
+            bottom: 0;
+
+            left: 50%;
+
+            margin-left: -1px;
+        }
+
+        .container-tl {
+            padding: 10px 40px;
+
+            position: relative;
+
+            width: 50%;
+        }
+
+        .container-tl::after {
+            content: '';
+
+            position: absolute;
+
+            width: 16px;
+            height: 16px;
+
+            right: -8px;
+
+            background-color: var(--bg-dark);
+
+            border: 4px solid var(--gold);
+
+            top: 20px;
+
+            border-radius: 50%;
+
+            z-index: 1;
+
+            transition: .3s;
+        }
+
+        .container-tl:hover::after {
+            background: var(--gold);
+
+            box-shadow:
+                0 0 15px var(--gold);
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .right::after {
+            left: -8px;
+        }
+
+        .content-tl {
+            padding: 25px;
+
+            background: var(--bg-card);
+
+            position: relative;
+
+            border-radius: 8px;
+
+            border: 1px solid rgba(212,175,55,.2);
+
+            transition: .3s;
+        }
+
+        .content-tl:hover {
+            transform: translateY(-5px);
+
+            border-color: var(--gold);
+
+            box-shadow:
+                0 15px 30px rgba(0,0,0,.3);
+        }
+
+        .content-tl h3 {
+            margin-bottom: 10px;
+        }
+
+        .year {
+            font-size: .8rem;
+
+            color: var(--text-muted);
+
+            letter-spacing: 2px;
+        }
+
+        /* =========================================================
+           ANATOMÍA
+        ========================================================= */
+
+        .anatomy-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 4rem;
+
+            align-items: center;
+        }
+
+        .pen-diagram {
+            position: relative;
+
+            height: 420px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(212,175,55,.08),
+                    transparent 70%
+                );
+
+            border: 1px solid rgba(212,175,55,.3);
+
+            border-radius: 15px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            overflow: hidden;
+        }
+
+        .pen-body {
+            width: 330px;
+
+            height: 55px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #111,
+                    #3b4252,
+                    #111
+                );
+
+            border-radius: 50px;
+
+            transform: rotate(-25deg);
+
+            box-shadow:
+                0 10px 30px rgba(0,0,0,.7);
+
+            position: relative;
+        }
+
+        .pen-body::before {
+            content: '';
+
+            position: absolute;
+
+            width: 100px;
+            height: 55px;
+
+            right: -80px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #d4af37,
+                    #f7dc78,
+                    #b8860b
+                );
+
+            clip-path: polygon(0 0,100% 50%,0 100%);
+
+            border-radius: 3px;
+        }
+
+        .pen-body::after {
+            content: '';
+
+            position: absolute;
+
+            width: 40px;
+            height: 20px;
+
+            left: 60px;
+            top: 17px;
+
+            background: var(--gold);
+
+            opacity: .5;
+
+            border-radius: 20px;
+        }
+
+        .anatomy-label {
+            position: absolute;
+
+            background: rgba(20,28,47,.95);
+
+            border: 1px solid var(--gold);
+
+            color: var(--text-main);
+
+            padding: 7px 12px;
+
+            border-radius: 5px;
+
+            font-size: .8rem;
+
+            cursor: pointer;
+
+            transition: .3s;
+        }
+
+        .anatomy-label:hover {
+            background: var(--gold);
+
+            color: #111;
+
+            transform: scale(1.08);
+        }
+
+        .label-nib {
+            right: 35px;
+            top: 120px;
+        }
+
+        .label-feed {
+            right: 90px;
+            top: 210px;
+        }
+
+        .label-body {
+            left: 40px;
+            top: 250px;
+        }
+
+        .label-cap {
+            left: 40px;
+            top: 140px;
+        }
+
+        .anatomy-text ul {
+            list-style: none;
+
+            margin-top: 1.5rem;
+        }
+
+        .anatomy-text li {
+            margin-bottom: 1rem;
+
+            padding-left: 2rem;
+
+            position: relative;
+        }
+
+        .anatomy-text li::before {
+            content: '✦';
+
+            position: absolute;
+
+            left: 0;
+
+            color: var(--gold);
+        }
+
+        /* =========================================================
+           TIPOS DE PLUMÍN
+        ========================================================= */
+
+        .types-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 2rem;
+        }
+
+        .type-card {
+            background: var(--bg-card);
+
+            padding: 2rem;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            border: 1px solid transparent;
+
+            cursor: pointer;
+
+            transition:
+                all .4s cubic-bezier(.175,.885,.32,1.275);
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+
+            position: absolute;
+
+            top: -50%;
+            left: -50%;
+
+            width: 200%;
+            height: 200%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(212,175,55,.12),
+                    transparent 70%
+                );
+
+            opacity: 0;
+
+            transition: .5s;
+
+            pointer-events: none;
+        }
+
+        .type-card:hover {
+            transform:
+                translateY(-10px)
+                scale(1.04);
+
+            border-color: var(--gold);
+
+            box-shadow:
+                0 15px 30px rgba(0,0,0,.6);
+        }
+
+        .type-card:hover::before {
+            opacity: 1;
+        }
+
+        .type-icon {
+            font-size: 2.5rem;
+
+            color: var(--gold);
+
+            margin-bottom: 1rem;
+
+            font-family: 'Cinzel', serif;
+        }
+
+        .type-card h3 {
+            margin-bottom: 1rem;
+        }
+
+        .type-card p {
+            color: var(--text-muted);
+        }
+
+        /* =========================================================
+           FLIP CARDS
+        ========================================================= */
+
+        .facts-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+
+            gap: 2rem;
+
+            perspective: 1000px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+
+            height: 250px;
+
+            perspective: 1000px;
+
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+
+            width: 100%;
+            height: 100%;
+
+            text-align: center;
+
+            transition: transform .8s;
+
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+
+            width: 100%;
+            height: 100%;
+
+            backface-visibility: hidden;
+
+            -webkit-backface-visibility: hidden;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 2rem;
+
+            border: 1px solid rgba(212,175,55,.2);
+        }
+
+        .flip-card-front {
+            background:
+                linear-gradient(
+                    145deg,
+                    #18233a,
+                    #0e1525
+                );
+        }
+
+        .flip-card-back {
+            background:
+                linear-gradient(
+                    145deg,
+                    #d4af37,
+                    #8d7020
+                );
+
+            color: #0a0e17;
+
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-back h3,
+        .flip-card-back p {
+            color: #0a0e17;
+        }
+
+        .fact-icon {
+            font-size: 3rem;
+
+            margin-bottom: 1rem;
+        }
+
+        /* =========================================================
+           TINTAS
+        ========================================================= */
+
+        .inks-container {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px,1fr));
+
+            gap: 1.5rem;
+        }
+
+        .ink-card {
+            padding: 2rem;
+
+            background: var(--bg-card);
+
+            border-radius: 10px;
+
+            border: 1px solid rgba(255,255,255,.08);
+
+            transition: .3s;
+
+            cursor: pointer;
+        }
+
+        .ink-card:hover {
+            transform: translateY(-7px);
+
+            border-color: var(--gold);
+        }
+
+        .ink-color {
+            width: 100%;
+
+            height: 80px;
+
+            border-radius: 8px;
+
+            margin-bottom: 1.2rem;
+
+            box-shadow:
+                inset 0 0 20px rgba(0,0,0,.25),
+                0 5px 15px rgba(0,0,0,.3);
+        }
+
+        .ink-blue {
+            background:
+                linear-gradient(
+                    135deg,
+                    #071a33,
+                    #1769aa,
+                    #4199db
+                );
+        }
+
+        .ink-black {
+            background:
+                linear-gradient(
+                    135deg,
+                    #000,
+                    #222,
+                    #050505
+                );
+        }
+
+        .ink-red {
+            background:
+                linear-gradient(
+                    135deg,
+                    #3d0808,
+                    #9e2020,
+                    #d54b4b
+                );
+        }
+
+        .ink-green {
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b3020,
+                    #246b45,
+                    #55a879
+                );
+        }
+
+        /* =========================================================
+           SIMULADOR DE ESCRITURA
+        ========================================================= */
+
+        .writing-area {
+            max-width: 900px;
+
+            margin: auto;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #121b2e,
+                    #0d1422
+                );
+
+            border: 1px solid rgba(212,175,55,.3);
+
+            padding: 2rem;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 20px 50px rgba(0,0,0,.3);
+        }
+
+        .controls {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 1rem;
+
+            margin-bottom: 1.5rem;
+
+            align-items: center;
+        }
+
+        .controls label {
+            color: var(--text-muted);
+        }
+
+        select,
+        input[type="range"] {
+            background: #0a0e17;
+
+            color: var(--text-main);
+
+            border: 1px solid var(--gold);
+
+            padding: 8px;
+
+            border-radius: 5px;
+        }
+
+        #inkColor {
+            width: 40px;
+            height: 35px;
+
+            padding: 2px;
+
+            border: 1px solid var(--gold);
+
+            background: transparent;
+
+            cursor: pointer;
+        }
+
+        #writingPad {
+            width: 100%;
+
+            min-height: 220px;
+
+            background:
+                repeating-linear-gradient(
+                    #f8f5eb 0px,
+                    #f8f5eb 34px,
+                    #d6d2c8 35px
+                );
+
+            color: #1769aa;
+
+            border: none;
+
+            border-radius: 8px;
+
+            padding: 25px;
+
+            resize: vertical;
+
+            outline: none;
+
+            font-family: 'Caveat', cursive, serif;
+
+            font-size: 28px;
+
+            line-height: 35px;
+        }
+
+        /* =========================================================
+           GALERÍA
+        ========================================================= */
+
+        .gallery {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit,minmax(250px,1fr));
+
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            height: 300px;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            border: 1px solid rgba(212,175,55,.2);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #19243a,
+                    #080d17
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            cursor: pointer;
+
+            transition: .4s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+
+            border-color: var(--gold);
+        }
+
+        .gallery-pen {
+            font-size: 7rem;
+
+            transform: rotate(-35deg);
+
+            transition: .5s;
+
+            filter:
+                drop-shadow(0 15px 10px rgba(0,0,0,.5));
+        }
+
+        .gallery-item:hover .gallery-pen {
+            transform:
+                rotate(-25deg)
+                scale(1.15);
+        }
+
+        .gallery-caption {
+            position: absolute;
+
+            bottom: 0;
+
+            left: 0;
+            right: 0;
+
+            padding: 1.5rem;
+
+            background:
+                linear-gradient(
+                    transparent,
+                    rgba(0,0,0,.95)
+                );
+        }
+
+        /* =========================================================
+           MODAL
+        ========================================================= */
+
+        .modal {
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(0,0,0,.75);
+
+            backdrop-filter: blur(8px);
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            z-index: 2000;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition: .3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+
+            pointer-events: all;
+        }
+
+        .modal-content {
+            width: min(600px,90%);
+
+            background: var(--bg-card);
+
+            border: 1px solid var(--gold);
+
+            border-radius: 12px;
+
+            padding: 2.5rem;
+
+            position: relative;
+
+            transform: scale(.8);
+
+            transition: .3s;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+
+            right: 20px;
+            top: 15px;
+
+            font-size: 2rem;
+
+            color: var(--gold);
+
+            cursor: pointer;
+
+            transition: .3s;
+        }
+
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+
+        /* =========================================================
+           QUOTE
+        ========================================================= */
+
+        .quote-section {
+            text-align: center;
+
+            padding: 8rem 2rem;
+        }
+
+        blockquote {
+            max-width: 800px;
+
+            margin: auto;
+
+            font-family: 'Cinzel', serif;
+
+            font-size: 2rem;
+
+            line-height: 1.5;
+
+            color: var(--text-main);
+
+            position: relative;
+        }
+
+        blockquote::before {
+            content: '"';
+
+            font-size: 8rem;
+
+            color: var(--gold);
+
+            opacity: .2;
+
+            position: absolute;
+
+            left: -50px;
+
+            top: -70px;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            border-top: 1px solid rgba(212,175,55,.2);
+
+            text-align: center;
+
+            padding: 3rem 1rem;
+
+            background: #070a11;
+        }
+
+        footer h3 {
+            margin-bottom: .5rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+
+            font-size: .9rem;
+        }
+
+        /* =========================================================
+           BOTÓN ARRIBA
+        ========================================================= */
+
+        #topBtn {
+            position: fixed;
+
+            bottom: 25px;
+            right: 25px;
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 50%;
+
+            border: 1px solid var(--gold);
+
+            background: rgba(10,14,23,.9);
+
+            color: var(--gold);
+
+            cursor: pointer;
+
+            font-size: 1.2rem;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition: .3s;
+
+            z-index: 1000;
+        }
+
+        #topBtn.visible {
+            opacity: 1;
+
+            pointer-events: all;
+        }
+
+        #topBtn:hover {
+            background: var(--gold);
+
+            color: #111;
+
+            transform: translateY(-4px);
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media(max-width: 800px) {
+
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: .8rem;
+            }
+
+            .nav-links a {
+                font-size: .65rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .timeline::after {
+                left: 20px;
+            }
+
+            .container-tl {
+                width: 100%;
+
+                padding-left: 50px;
+                padding-right: 10px;
+            }
+
+            .right {
+                left: 0;
+            }
+
+            .container-tl::after,
+            .right::after {
+                left: 12px;
+            }
+
+            .anatomy-grid {
+                grid-template-columns: 1fr;
+
+                gap: 2rem;
+            }
+
+            .pen-diagram {
+                height: 350px;
+            }
+
+            .section-title {
+                font-size: 2.1rem;
+            }
+
+            blockquote {
+                font-size: 1.4rem;
+            }
+
+        }
+
+        @media(max-width: 550px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            section {
+                padding:
+                    5rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.6rem;
+            }
+
+            .pen-body {
+                width: 230px;
+            }
+
+            .label-cap {
+                left: 15px;
+            }
+
+            .label-body {
+                left: 15px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     CANVAS
+========================================================= -->
+
+<canvas id="inkCanvas"></canvas>
+
+
+<!-- =========================================================
+     NAVEGACIÓN
+========================================================= -->
+
+<nav>
+
+    <a href="#inicio" class="logo">
+        Maestría en Tinta
+    </a>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="#historia">Historia</a>
+        </li>
+
+        <li>
+            <a href="#anatomia">Anatomía</a>
+        </li>
+
+        <li>
+            <a href="#plumines">Plumines</a>
+        </li>
+
+        <li>
+            <a href="#tintas">Tintas</a>
+        </li>
+
+        <li>
+            <a href="#experimenta">Experimenta</a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<header class="hero" id="inicio">
+
+    <div class="hero-pen">
+        ✒
+    </div>
+
+    <h1>
+        Maestría en Tinta
+    </h1>
+
+    <p>
+        El arte, la ingeniería y la historia detrás de una de
+        las herramientas de escritura más elegantes jamás creadas.
+    </p>
+
+    <a href="#historia" class="btn">
+        Descubrir el mundo de las estilográficas
+    </a>
+
+    <div class="scroll-indicator">
+
+        Explorar
+
+        <span class="scroll-arrow">
+            ↓
+        </span>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     HISTORIA
+========================================================= -->
+
+<section id="historia">
+
+    <h2 class="section-title reveal">
+        Una historia escrita con tinta
+    </h2>
+
+
+    <div class="timeline">
+
+
+        <div class="container-tl left reveal">
+
+            <div class="content-tl">
+
+                <span class="year">
+                    SIGLO X
+                </span>
+
+                <h3>
+                    Los primeros antecedentes
+                </h3>
+
+                <p>
+                    Mucho antes de las estilográficas modernas,
+                    diferentes culturas experimentaron con
+                    sistemas capaces de almacenar tinta dentro
+                    de instrumentos de escritura.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="container-tl right reveal">
+
+            <div class="content-tl">
+
+                <span class="year">
+                    1827
+                </span>
+
+                <h3>
+                    La patente de Petrache Poenaru
+                </h3>
+
+                <p>
+                    Petrache Poenaru obtuvo una patente para un
+                    instrumento de escritura con depósito de tinta,
+                    considerado uno de los antecedentes directos
+                    de la pluma estilográfica.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="container-tl left reveal">
+
+            <div class="content-tl">
+
+                <span class="year">
+                    SIGLO XIX
+                </span>
+
+                <h3>
+                    Nace la estilográfica moderna
+                </h3>
+
+                <p>
+                    La combinación de alimentadores, depósitos y
+                    plumines permitió controlar el flujo de tinta
+                    de manera mucho más eficiente.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="container-tl right reveal">
+
+            <div class="content-tl">
+
+                <span class="year">
+                    SIGLO XX
+                </span>
+
+                <h3>
+                    La edad dorada
+                </h3>
+
+                <p>
+                    Fabricantes como Parker, Waterman, Sheaffer
+                    y Montblanc convirtieron las estilográficas
+                    en auténticos objetos de diseño.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="container-tl left reveal">
+
+            <div class="content-tl">
+
+                <span class="year">
+                    HOY
+                </span>
+
+                <h3>
+                    Un objeto que se niega a desaparecer
+                </h3>
+
+                <p>
+                    Aunque vivimos en una era digital, las
+                    estilográficas continúan siendo apreciadas
+                    por coleccionistas, escritores y amantes
+                    de la escritura tradicional.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ANATOMÍA
+========================================================= -->
+
+<section id="anatomia">
+
+    <h2 class="section-title reveal">
+        Anatomía de una estilográfica
+    </h2>
+
+
+    <div class="anatomy-grid">
+
+
+        <div class="pen-diagram reveal">
+
+            <div class="pen-body"></div>
+
+
+            <div
+                class="anatomy-label label-nib"
+                data-info="El plumín es la parte metálica que entra en contacto con el papel y determina gran parte de la experiencia de escritura."
+            >
+                Plumín
+            </div>
+
+
+            <div
+                class="anatomy-label label-feed"
+                data-info="El alimentador regula el suministro de tinta hacia el plumín mediante canales internos."
+            >
+                Alimentador
+            </div>
+
+
+            <div
+                class="anatomy-label label-body"
+                data-info="El cuerpo contiene o conecta los diferentes componentes de la estilográfica y proporciona ergonomía."
+            >
+                Cuerpo
+            </div>
+
+
+            <div
+                class="anatomy-label label-cap"
+                data-info="El capuchón protege el plumín y ayuda a evitar que la tinta se seque."
+            >
+                Capuchón
+            </div>
+
+        </div>
+
+
+        <div class="anatomy-text reveal">
+
+            <h3>
+                Una pequeña máquina de precisión
+            </h3>
+
+            <p>
+                Una estilográfica puede parecer sencilla, pero
+                su funcionamiento depende de un delicado equilibrio
+                entre tinta, aire, capilaridad y geometría.
+            </p>
+
+
+            <ul>
+
+                <li>
+                    <strong>Plumín:</strong>
+                    determina el trazo.
+                </li>
+
+                <li>
+                    <strong>Alimentador:</strong>
+                    controla el flujo.
+                </li>
+
+                <li>
+                    <strong>Depósito:</strong>
+                    almacena la tinta.
+                </li>
+
+                <li>
+                    <strong>Sección:</strong>
+                    conecta el cuerpo con el plumín.
+                </li>
+
+                <li>
+                    <strong>Capuchón:</strong>
+                    protege el sistema de escritura.
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PLUMINES
+========================================================= -->
+
+<section id="plumines">
+
+    <h2 class="section-title reveal">
+        El alma de la estilográfica
+    </h2>
+
+
+    <div class="types-grid">
+
+
+        <div
+            class="type-card reveal"
+            data-title="Extra Fine"
+            data-description="Ideal para anotaciones pequeñas, escritura técnica y personas que prefieren trazos muy finos."
+        >
+
+            <div class="type-icon">
+                EF
+            </div>
+
+            <h3>
+                Extra Fine
+            </h3>
+
+            <p>
+                Precisión extrema y trazos muy delgados.
+            </p>
+
+        </div>
+
+
+        <div
+            class="type-card reveal"
+            data-title="Fine"
+            data-description="Uno de los tamaños más versátiles. Ofrece precisión sin sacrificar demasiada fluidez."
+        >
+
+            <div class="type-icon">
+                F
+            </div>
+
+            <h3>
+                Fine
+            </h3>
+
+            <p>
+                Preciso, elegante y cotidiano.
+            </p>
+
+        </div>
+
+
+        <div
+            class="type-card reveal"
+            data-title="Medium"
+            data-description="El punto medio entre precisión y flujo de tinta. Es uno de los tamaños más populares."
+        >
+
+            <div class="type-icon">
+                M
+            </div>
+
+            <h3>
+                Medium
+            </h3>
+
+            <p>
+                Equilibrio entre fluidez y definición.
+            </p>
+
+        </div>
+
+
+        <div
+            class="type-card reveal"
+            data-title="Broad"
+            data-description="Produce líneas gruesas y expresivas. Ideal para firmas y escritura llamativa."
+        >
+
+            <div class="type-icon">
+                B
+            </div>
+
+            <h3>
+                Broad
+            </h3>
+
+            <p>
+                Trazos amplios y expresivos.
+            </p>
+
+        </div>
+
+
+        <div
+            class="type-card reveal"
+            data-title="Stub"
+            data-description="Su geometría permite crear variaciones de grosor entre trazos verticales y horizontales."
+        >
+
+            <div class="type-icon">
+                1.1
+            </div>
+
+            <h3>
+                Stub
+            </h3>
+
+            <p>
+                Perfecto para caligrafía y variación de línea.
+            </p>
+
+        </div>
+
+
+        <div
+            class="type-card reveal"
+            data-title="Flex"
+            data-description="Un plumín flexible permite modificar el ancho de línea aplicando diferentes niveles de presión."
+        >
+
+            <div class="type-icon">
+                ≋
+            </div>
+
+            <h3>
+                Flex
+            </h3>
+
+            <p>
+                Permite crear líneas con personalidad.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     DATOS CURIOSOS
+========================================================= -->
+
+<section>
+
+    <h2 class="section-title reveal">
+        Secretos de la tinta
+    </h2>
+
+
+    <div class="facts-grid">
+
+
+        <div class="flip-card reveal">
+
+            <div class="flip-card-inner">
+
+                <div class="flip-card-front">
+
+                    <div class="fact-icon">
+                        💧
+                    </div>
+
+                    <h3>
+                        Capilaridad
+                    </h3>
+
+                    <p>
+                        ¿Qué hace que la tinta llegue al plumín?
+                    </p>
+
+                </div>
+
+
+                <div class="flip-card-back">
+
+                    <h3>
+                        Capilaridad
+                    </h3>
+
+                    <p>
+                        Los pequeños canales del alimentador
+                        ayudan a transportar la tinta gracias
+                        a fenómenos capilares y al equilibrio
+                        entre tinta y aire.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="flip-card reveal">
+
+            <div class="flip-card-inner">
+
+                <div class="flip-card-front">
+
+                    <div class="fact-icon">
+                        🖋️
+                    </div>
+
+                    <h3>
+                        El plumín
+                    </h3>
+
+                    <p>
+                        No todo depende del material.
+                    </p>
+
+                </div>
+
+
+                <div class="flip-card-back">
+
+                    <h3>
+                        El plumín
+                    </h3>
+
+                    <p>
+                        La geometría, el pulido, el tamaño de la
+                        punta y la separación del slit influyen
+                        enormemente en cómo escribe una pluma.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="flip-card reveal">
+
+            <div class="flip-card-inner">
+
+                <div class="flip-card-front">
+
+                    <div class="fact-icon">
+                        ⚙️
+                    </div>
+
+                    <h3>
+                        Alimentación
+                    </h3>
+
+                    <p>
+                        Tinta y aire trabajan juntos.
+                    </p>
+
+                </div>
+
+
+                <div class="flip-card-back">
+
+                    <h3>
+                        Aire
+                    </h3>
+
+                    <p>
+                        Para que la tinta salga del depósito,
+                        el sistema debe permitir simultáneamente
+                        la entrada de aire.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     TINTAS
+========================================================= -->
+
+<section id="tintas">
+
+    <h2 class="section-title reveal">
+        El universo de las tintas
+    </h2>
+
+
+    <div class="inks-container">
+
+
+        <div class="ink-card reveal">
+
+            <div class="ink-color ink-blue"></div>
+
+            <h3>
+                Azul Real
+            </h3>
+
+            <p>
+                El clásico por excelencia. Limpio, elegante
+                y perfecto para escritura cotidiana.
+            </p>
+
+        </div>
+
+
+        <div class="ink-card reveal">
+
+            <div class="ink-color ink-black"></div>
+
+            <h3>
+                Negro
+            </h3>
+
+            <p>
+                Sobrio, profesional y con una presencia
+                especialmente intensa sobre papel blanco.
+            </p>
+
+        </div>
+
+
+        <div class="ink-card reveal">
+
+            <div class="ink-color ink-red"></div>
+
+            <h3>
+                Rojo Carmesí
+            </h3>
+
+            <p>
+                Una tinta expresiva utilizada tradicionalmente
+                para correcciones y anotaciones.
+            </p>
+
+        </div>
+
+
+        <div class="ink-card reveal">
+
+            <div class="ink-color ink-green"></div>
+
+            <h3>
+                Verde Bosque
+            </h3>
+
+            <p>
+                Una alternativa elegante para quienes buscan
+                una escritura diferente.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SIMULADOR
+========================================================= -->
+
+<section id="experimenta">
+
+    <h2 class="section-title reveal">
+        Experimenta con la escritura
+    </h2>
+
+
+    <div class="writing-area reveal">
+
+
+        <div class="controls">
+
+            <label>
+                Plumín:
+            </label>
+
+            <select id="nibSize">
+
+                <option value="18">
+                    Extra Fine
+                </option>
+
+                <option value="22">
+                    Fine
+                </option>
+
+                <option value="28" selected>
+                    Medium
+                </option>
+
+                <option value="36">
+                    Broad
+                </option>
+
+                <option value="45">
+                    Stub
+                </option>
+
+            </select>
+
+
+            <label>
+                Tinta:
+            </label>
+
+            <input
+                type="color"
+                id="inkColor"
+                value="#1769aa"
+            >
+
+
+            <button
+                class="btn"
+                id="clearPad"
+                type="button"
+            >
+                Limpiar
+            </button>
+
+        </div>
+
+
+        <textarea
+            id="writingPad"
+            placeholder="Escribe aquí y experimenta con tu estilográfica..."
+        ></textarea>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     GALERÍA
+========================================================= -->
+
+<section>
+
+    <h2 class="section-title reveal">
+        El objeto como obra de arte
+    </h2>
+
+
+    <div class="gallery">
+
+
+        <div class="gallery-item reveal">
+
+            <div class="gallery-pen">
+                🖋️
+            </div>
+
+            <div class="gallery-caption">
+
+                <h3>
+                    Elegancia clásica
+                </h3>
+
+                <p>
+                    Una herramienta que también puede ser una pieza de colección.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="gallery-item reveal">
+
+            <div class="gallery-pen">
+                ✒️
+            </div>
+
+            <div class="gallery-caption">
+
+                <h3>
+                    El plumín
+                </h3>
+
+                <p>
+                    El punto donde la ingeniería se convierte en escritura.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="gallery-item reveal">
+
+            <div class="gallery-pen">
+                🖊️
+            </div>
+
+            <div class="gallery-caption">
+
+                <h3>
+                    Diseño
+                </h3>
+
+                <p>
+                    Materiales, proporciones y ergonomía.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     FRASE
+========================================================= -->
+
+<section class="quote-section reveal">
+
+    <blockquote>
+
+        Una estilográfica no solo escribe palabras.
+        Escribe la personalidad de quien la sostiene.
+
+    </blockquote>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer>
+
+    <h3>
+        Maestría en Tinta
+    </h3>
+
+    <p>
+        Historia · Ingeniería · Arte · Escritura
+    </p>
+
+    <p style="margin-top:15px;">
+        © 2026 — Una exploración del mundo de las estilográficas.
+    </p>
+
+</footer>
+
+
+<!-- =========================================================
+     MODAL
+========================================================= -->
+
+<div class="modal" id="infoModal">
+
+    <div class="modal-content">
+
+        <span class="close-modal" id="closeModal">
+            ×
+        </span>
+
+        <h2 id="modalTitle">
+            Información
+        </h2>
+
+        <p
+            id="modalText"
+            style="margin-top:20px;"
+        ></p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     BOTÓN ARRIBA
+========================================================= -->
+
+<button id="topBtn">
+    ↑
+</button>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    /* =========================================================
+       CANVAS — PARTÍCULAS DE TINTA
+    ========================================================= */
+
+    const canvas =
+        document.getElementById("inkCanvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    let particles = [];
+
+    function resizeCanvas() {
+
+        canvas.width =
+            window.innerWidth;
+
+        canvas.height =
+            window.innerHeight;
+    }
+
+    resizeCanvas();
+
+    window.addEventListener(
+        "resize",
+        resizeCanvas
+    );
+
+
+    class InkParticle {
+
+        constructor() {
+
+            this.x =
+                Math.random() *
+                canvas.width;
+
+            this.y =
+                Math.random() *
+                canvas.height;
+
+            this.radius =
+                Math.random() * 2.5 + .5;
+
+            this.speedX =
+                (Math.random() - .5) * .25;
+
+            this.speedY =
+                (Math.random() - .5) * .25;
+
+            this.opacity =
+                Math.random() * .4 + .1;
+        }
+
+
+        update() {
+
+            this.x +=
+                this.speedX;
+
+            this.y +=
+                this.speedY;
+
+
+            if (
+                this.x < 0 ||
+                this.x > canvas.width
+            ) {
+
+                this.speedX *= -1;
+            }
+
+
+            if (
+                this.y < 0 ||
+                this.y > canvas.height
+            ) {
+
+                this.speedY *= -1;
+            }
+        }
+
+
+        draw() {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                this.x,
+                this.y,
+                this.radius,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle =
+                `rgba(212,175,55,${this.opacity})`;
+
+            ctx.fill();
+        }
+
+    }
+
+
+    for (
+        let i = 0;
+        i < 70;
+        i++
+    ) {
+
+        particles.push(
+            new InkParticle()
+        );
+    }
+
+
+    function animateCanvas() {
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+
+        particles.forEach(
+            particle => {
+
+                particle.update();
+
+                particle.draw();
+
+            }
+        );
+
+
+        requestAnimationFrame(
+            animateCanvas
+        );
+    }
+
+
+    animateCanvas();
+
+
+    /* =========================================================
+       SCROLL REVEAL
+    ========================================================= */
+
+    const revealElements =
+        document.querySelectorAll(".reveal");
+
+
+    const revealObserver =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: .12
+            }
+        );
+
+
+    revealElements.forEach(
+        element =>
+            revealObserver.observe(element)
+    );
+
+
+    /* =========================================================
+       MODAL
+    ========================================================= */
+
+    const modal =
+        document.getElementById("infoModal");
+
+    const modalTitle =
+        document.getElementById("modalTitle");
+
+    const modalText =
+        document.getElementById("modalText");
+
+    const closeModal =
+        document.getElementById("closeModal");
+
+
+    function openModal(
+        title,
+        description
+    ) {
+
+        modalTitle.textContent =
+            title;
+
+        modalText.textContent =
+            description;
+
+        modal.classList.add(
+            "active"
+        );
+    }
+
+
+    function closeInfoModal() {
+
+        modal.classList.remove(
+            "active"
+        );
+    }
+
+
+    document
+        .querySelectorAll(".type-card")
+        .forEach(card => {
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    openModal(
+                        card.dataset.title,
+                        card.dataset.description
+                    );
+
+                }
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(".anatomy-label")
+        .forEach(label => {
+
+            label.addEventListener(
+                "click",
+                () => {
+
+                    openModal(
+                        label.textContent,
+                        label.dataset.info
+                    );
+
+                }
+            );
+
+        });
+
+
+    closeModal.addEventListener(
+        "click",
+        closeInfoModal
+    );
+
+
+    modal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === modal
+            ) {
+
+                closeInfoModal();
+
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeInfoModal();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       SIMULADOR DE ESCRITURA
+    ========================================================= */
+
+    const writingPad =
+        document.getElementById(
+            "writingPad"
+        );
+
+    const nibSize =
+        document.getElementById(
+            "nibSize"
+        );
+
+    const inkColor =
+        document.getElementById(
+            "inkColor"
+        );
+
+    const clearPad =
+        document.getElementById(
+            "clearPad"
+        );
+
+
+    nibSize.addEventListener(
+        "input",
+        () => {
+
+            writingPad.style.fontSize =
+                nibSize.value + "px";
+
+        }
+    );
+
+
+    inkColor.addEventListener(
+        "input",
+        () => {
+
+            writingPad.style.color =
+                inkColor.value;
+
+        }
+    );
+
+
+    clearPad.addEventListener(
+        "click",
+        () => {
+
+            writingPad.value = "";
+
+            writingPad.focus();
+
+        }
+    );
+
+
+    /* =========================================================
+       BOTÓN VOLVER ARRIBA
+    ========================================================= */
+
+    const topBtn =
+        document.getElementById(
+            "topBtn"
+        );
+
+
+    window.addEventListener(
+        "scroll",
+        () => {
+
+            if (
+                window.scrollY > 500
+            ) {
+
+                topBtn.classList.add(
+                    "visible"
+                );
+
+            } else {
+
+                topBtn.classList.remove(
+                    "visible"
+                );
+
+            }
+
+        }
+    );
+
+
+    topBtn.addEventListener(
+        "click",
+        () => {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+    );
+
+
+    /* =========================================================
+       EFECTO DE TINTA AL HACER CLICK
+    ========================================================= */
+
+    document.addEventListener(
+        "click",
+        event => {
+
+            const drop =
+                document.createElement(
+                    "div"
+                );
+
+            drop.style.position =
+                "fixed";
+
+            drop.style.left =
+                event.clientX + "px";
+
+            drop.style.top =
+                event.clientY + "px";
+
+            drop.style.width =
+                "8px";
+
+            drop.style.height =
+                "8px";
+
+            drop.style.borderRadius =
+                "50%";
+
+            drop.style.background =
+                "rgba(212,175,55,.8)";
+
+            drop.style.pointerEvents =
+                "none";
+
+            drop.style.zIndex =
+                "9999";
+
+            drop.style.transform =
+                "translate(-50%,-50%)";
+
+            drop.style.transition =
+                "all .7s ease";
+
+
+            document.body.appendChild(
+                drop
+            );
+
+
+            requestAnimationFrame(
+                () => {
+
+                    drop.style.width =
+                        "70px";
+
+                    drop.style.height =
+                        "70px";
+
+                    drop.style.opacity =
+                        "0";
+
+                }
+            );
+
+
+            setTimeout(
+                () => {
+
+                    drop.remove();
+
+                },
+                700
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       NAVBAR — EFECTO AL HACER SCROLL
+    ========================================================= */
+
+    const nav =
+        document.querySelector("nav");
+
+
+    window.addEventListener(
+        "scroll",
+        () => {
+
+            if (
+                window.scrollY > 50
+            ) {
+
+                nav.style.background =
+                    "rgba(7,10,17,.96)";
+
+            } else {
+
+                nav.style.background =
+                    "rgba(10,14,23,.85)";
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+</html>
